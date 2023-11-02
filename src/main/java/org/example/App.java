@@ -32,8 +32,11 @@ public class App extends Application {
         Pane pane = new Pane();
         Scene scene = new Scene(pane, SCENE_HEIGHT, SCENE_WIDTH);
         Circle circle = new Circle(20, Color.RED);
+        Circle circleOne = new Circle(10, Color.GREEN);
         circle.relocate(10,10);
+        circleOne.relocate(5,5);
         pane.getChildren().add(circle);
+        pane.getChildren().add(circleOne);
 
         stage.setScene(scene);
         stage.show();
@@ -41,10 +44,16 @@ public class App extends Application {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(25), new EventHandler<ActionEvent>() {
             double dx = 2;
             double dy = 5;
+
+            double dx1 = 3;
+            double dy1 = 6;
             @Override
             public void handle(ActionEvent actionEvent) {
                 circle.setLayoutX(circle.getLayoutX() + dx);
                 circle.setLayoutY(circle.getLayoutY() + dy);
+
+                circleOne.setLayoutX(circleOne.getLayoutX() + dx1);
+                circleOne.setLayoutY(circleOne.getLayoutY() + dy1);
 
                 Bounds bounds = pane.getBoundsInLocal();
 
@@ -62,6 +71,19 @@ public class App extends Application {
                         circle.getLayoutY() >= (bounds.getMaxY() - circle.getRadius())) {
                     System.out.println("Out of bounds Y " + circle.getLayoutY());
                     dy = -dy;
+                }
+
+                if(circleOne.getLayoutX() <= (bounds.getMinX() + circleOne.getRadius()) ||
+                        circleOne.getLayoutX() >= (bounds.getMaxX() - circleOne.getRadius())) {
+                    System.out.println("Out of bounds X " + circleOne.getLayoutX());
+
+                    dx1 = -dx1;
+                }
+
+                if(circleOne.getLayoutY() <= (bounds.getMinY() + circleOne.getRadius()) ||
+                        circleOne.getLayoutY() >= (bounds.getMaxY() - circleOne.getRadius())) {
+                    System.out.println("Out of bounds Y " + circleOne.getLayoutY());
+                    dy1 = -dy1;
                 }
             }
         }));
